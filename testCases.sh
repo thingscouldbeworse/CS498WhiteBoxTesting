@@ -5,7 +5,7 @@
 	mkdir -p inputs
 
 # create input file
-	echo "Lorem ipsum dolor sit amet 1234567890" > inputs/input-file.txt
+	printf "Lorem ipsum dolor sit amet 1234567890\n\n\n" > inputs/input-file.txt
 
 # Just test with empty content
 	NUM='1'
@@ -54,4 +54,27 @@
 	OLD="[L][o].*[m]"
 	NEW="STRING"
 	cat inputs/input-file.txt | ./replace.exe $OLD $NEW > outputs/out$NUM.txt
-	echo $OLD
+
+# Test with strange patterns and newlines
+	NUM='10'
+	OLD="@@@@@@@@@@@@@@"
+	NEW="STRING"
+	cat inputs/input-file.txt | ./replace.exe $OLD $NEW > outputs/out$NUM.txt
+
+# Lazy match regex
+	NUM='11'
+	OLD="[0-9].*?[0-9]"
+	NEW="!@@#$%^&*()_+"
+	cat inputs/input-file.txt | ./replace.exe $OLD $NEW > outputs/out$NUM.txt
+
+# More random junk
+	NUM='12'
+	OLD="%%%%%%%"
+	NEW="/~``"
+	cat inputs/input-file.txt | ./replace.exe $OLD $NEW > outputs/out$NUM.txt
+
+# More random regex junk
+	NUM='13'
+	OLD="^[A-C].*$"
+	NEW="@@@@@@@@@@@@@@@@@@@@@@@@@@"
+	cat inputs/input-file.txt | ./replace.exe $OLD $NEW > outputs/out$NUM.txt
